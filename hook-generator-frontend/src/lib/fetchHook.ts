@@ -1,6 +1,12 @@
 // src/lib/fetchHook.ts
+
 export async function fetchHookFromAPI(text: string) {
-  const res = await fetch("http://localhost:8000/generate-express-summary", {
+  const API_BASE_URL =
+    import.meta.env.MODE === "development"
+      ? "http://localhost:8000"
+      : import.meta.env.VITE_API_BASE_URL;
+
+  const res = await fetch(`${API_BASE_URL}/generate-express-summary`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text }),

@@ -1,54 +1,115 @@
-# React + TypeScript + Vite
+# 🎯 Hook Generator Frontend – React + Vite + Tailwind CSS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the **frontend** of the Hook Generator project. It's built with **React** (via Vite), styled using **Tailwind CSS**, and uses **shadcn/ui** for modern UI components. It communicates with the FastAPI backend to generate punchy one-liners from user-provided text.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- ⚛️ **React + Vite**: Lightning-fast development experience
+- 🎨 **Tailwind CSS**: Utility-first CSS framework for styling
+- 🧩 **shadcn/ui**: Pre-built accessible components
+- 🪄 **Framer Motion**: Smooth animations
+- 🌐 Easily connect to the FastAPI backend
+- 📱 Fully responsive design
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 🛠️ Project Structure
+
+```
+src/
+├── components/
+│   └── ui/                  # Reusable UI components (Textarea, Button, Card, etc.)
+├── hooks/
+│   └── useHookGenerator.ts # Custom logic for managing state + API
+├── lib/
+│   └── fetchHook.ts        # Function to call the backend API
+├── pages/
+│   └── index.tsx           # Main UI logic
+├── styles/
+│   └── global.scss         # Global styles (if any)
+└── main.tsx                # Entry point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Installation
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/your-username/hook-generator-frontend.git
+cd hook-generator-frontend
 ```
+
+### 2. Install dependencies
+
+```bash
+pnpm install
+# OR
+yarn install
+# OR
+npm install
+```
+
+### 3. Run in dev mode
+
+```bash
+pnpm dev
+# OR
+yarn dev
+# OR
+npm run dev
+```
+
+Access the app at: [http://localhost:5173](http://localhost:5173)
+
+---
+
+## 🔗 Connecting to Backend
+
+Update the backend URL in `lib/fetchHook.ts`:
+
+```ts
+const API_URL = "http://localhost:8000/generate-hook";
+```
+
+To switch between local and production APIs, you can use environment variables via `.env`:
+
+```env
+VITE_API_URL=http://localhost:8000/generate-hook
+```
+
+And in your code:
+
+```ts
+const API_URL = import.meta.env.VITE_API_URL;
+```
+
+---
+
+## 🧠 How it Works
+
+1. User types or pastes text into a textarea.
+2. The frontend sends this text to the backend API.
+3. The backend returns a short punchline.
+4. The result is displayed in an animated card with a copy button.
+
+---
+
+## 🌍 Deployment
+
+### Vercel (recommended)
+
+Just push the repo to GitHub and connect it to [Vercel](https://vercel.com). No config needed, it auto-detects Vite.
+
+---
+
+## 📄 License
+
+MIT – Feel free to fork, contribute and build your portfolio!
+
+---
+
+Made with ❤️ by Jonathan

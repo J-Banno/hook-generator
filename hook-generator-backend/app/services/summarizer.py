@@ -35,6 +35,12 @@ def generate_hook(text: str) -> dict:
             timeout=60,
         )
 
+        if "application/json" not in response.headers.get("Content-Type", ""):
+            raise HTTPException(
+                response.status_code,
+                f"Erreur Hugging Face API : réponse non JSON - {response.text[:100]}",
+            )
+
         try:
             json_data = response.json()
         except Exception:

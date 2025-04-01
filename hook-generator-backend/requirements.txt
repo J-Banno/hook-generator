@@ -38,3 +38,4 @@ urllib3==2.3.0
 uvicorn==0.34.0
 wrapt==1.17.2
 protobuf==6.30.2
+python-dotenv==1.1.0

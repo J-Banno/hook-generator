@@ -28,41 +28,41 @@ def generate_hook(text: str) -> dict:
         if not HF_API_TOKEN:
             raise HTTPException(500, "Token Hugging Face manquant dans .env")
 
-        response = requests.post(
-            f"https://api-inference.huggingface.co/models/{MODEL_NAME}",
-            headers={"Authorization": f"Bearer {HF_API_TOKEN}"},
-            json={"inputs": prompt},
-            timeout=60,
-        )
-
-        if "application/json" not in response.headers.get("Content-Type", ""):
-            raise HTTPException(
-                response.status_code,
-                f"Erreur Hugging Face API : réponse non JSON - {response.text[:100]}",
-            )
-
         try:
+            response = requests.post(
+                f"https://api-inference.huggingface.co/models/{MODEL_NAME}",
+                headers={"Authorization": f"Bearer {HF_API_TOKEN}"},
+                json={"inputs": prompt},
+                timeout=60,
+            )
+
+            if "application/json" not in response.headers.get("Content-Type", ""):
+                raise HTTPException(
+                    response.status_code,
+                    f"Erreur Hugging Face API : réponse non JSON - {response.text[:100]}",
+                )
+
             json_data = response.json()
-        except Exception:
-            raise HTTPException(
-                response.status_code,
-                f"Erreur Hugging Face API (non JSON): {response.text[:100]}",
-            )
 
-        if response.status_code != 200:
-            raise HTTPException(
-                response.status_code,
-                f"Erreur Hugging Face API: {json_data.get('error', 'Erreur inconnue')}",
-            )
+            if response.status_code != 200:
+                raise HTTPException(
+                    response.status_code,
+                    f"Erreur Hugging Face API: {json_data.get('error', 'Erreur inconnue')}",
+                )
 
-        if not isinstance(json_data, list) or "summary_text" not in json_data[0]:
-            raise HTTPException(
-                500,
-                f"Réponse inattendue de l'API Hugging Face : {json_data}",
-            )
+            if not isinstance(json_data, list) or "summary_text" not in json_data[0]:
+                raise HTTPException(
+                    500,
+                    f"Réponse inattendue de l'API Hugging Face : {json_data}",
+                )
 
-        hook = post_process_summary(json_data[0]["summary_text"])
-        return {"hook": hook}
+            hook = post_process_summary(json_data[0]["summary_text"])
+            return {"hook": hook}
+
+        except requests.exceptions.RequestException as e:
+            raise HTTPException(
+                500, f"Erreur lors de la connexion à Hugging Face: {str(e)}"
+            )
 
     tokens = tokenizer(prompt, return_tensors="pt", truncation=False)
 

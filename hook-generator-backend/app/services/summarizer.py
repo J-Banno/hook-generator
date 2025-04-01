@@ -31,16 +31,30 @@ def generate_hook(text: str) -> dict:
             f"https://api-inference.huggingface.co/models/{MODEL_NAME}",
             headers={"Authorization": f"Bearer {HF_API_TOKEN}"},
             json={"inputs": prompt},
-            timeout=20,
+            timeout=60,
         )
+
+        try:
+            json_data = response.json()
+        except Exception:
+            raise HTTPException(
+                response.status_code,
+                f"Erreur Hugging Face API (non JSON): {response.text[:100]}",
+            )
 
         if response.status_code != 200:
             raise HTTPException(
                 response.status_code,
-                f"Erreur Hugging Face API: {response.json().get('error', 'Erreur inconnue')}",
+                f"Erreur Hugging Face API: {json_data.get('error', 'Erreur inconnue')}",
             )
 
-        hook = post_process_summary(response.json()[0]["generated_text"])
+        if not isinstance(json_data, list) or "summary_text" not in json_data[0]:
+            raise HTTPException(
+                500,
+                f"Réponse inattendue de l'API Hugging Face : {json_data}",
+            )
+
+        hook = post_process_summary(json_data[0]["summary_text"])
         return {"hook": hook}
 
     tokens = tokenizer(prompt, return_tensors="pt", truncation=False)

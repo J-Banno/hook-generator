@@ -1,21 +1,22 @@
 import os
 import requests
 from fastapi import HTTPException
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from app.utils.text_cleaner import clean_text, post_process_summary
 
 USE_HF_API = os.getenv("USE_HF_API", "False").lower() == "true"
 HF_API_TOKEN = os.getenv("HF_API_TOKEN")
-
 MODEL_NAME = "csebuetnlp/mT5_multilingual_XLSum"
 
 if not USE_HF_API:
+    from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_NAME)
 
 
 def generate_hook(text: str) -> dict:
     cleaned = clean_text(text)
+
     if len(cleaned) < 30:
         raise HTTPException(400, "Le texte est trop court pour générer une accroche.")
     if len(cleaned) > 10000:

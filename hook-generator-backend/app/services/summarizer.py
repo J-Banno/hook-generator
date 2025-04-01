@@ -28,18 +28,12 @@ def generate_hook(text: str) -> dict:
         if not HF_API_TOKEN:
             raise HTTPException(500, "Token Hugging Face manquant dans .env")
 
-        print("📨 Prompt envoyé à HF :")
-        print(prompt[:300])  # on limite l'affichage à 300 caractères
-
         response = requests.post(
             f"https://api-inference.huggingface.co/models/{MODEL_NAME}",
             headers={"Authorization": f"Bearer {HF_API_TOKEN}"},
             json={"inputs": prompt},
             timeout=60,
         )
-
-        print("📡 Status HF API :", response.status_code)
-        print("📩 Contenu brut HF :", response.text[:300])
 
         if "application/json" not in response.headers.get("Content-Type", ""):
             raise HTTPException(

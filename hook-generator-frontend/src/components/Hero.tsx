@@ -16,13 +16,12 @@ export default function Hero() {
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-4">
           <span className="text-blue-600 inline-flex items-center gap-2">
             <Sparkles className="w-6 h-6 animate-pulse" />
-            Résumez en une punchline
+            Créez une accroche percutante
           </span>
         </h1>
 
-        {/* 🧠 Accroche secondaire */}
         <h2 className="text-lg md:text-xl text-blue-500 font-medium mb-6">
-          Transformez un pavé de texte en une phrase qui claque.
+          Résumez efficacement vos textes en une phrase impactante.
         </h2>
 
         <p className="text-gray-600 text-base md:text-lg mb-10 leading-relaxed">
@@ -36,7 +35,6 @@ export default function Hero() {
           </Button>
         </a>
 
-        {/* 🔍 Preuve crédibilité IA */}
         <p className="text-sm text-gray-400 mt-8">
           Propulsé par un modèle multilingue de Hugging Face 🤖
         </p>

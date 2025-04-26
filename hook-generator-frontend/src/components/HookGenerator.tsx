@@ -29,7 +29,7 @@ export function HookGenerator() {
       className="min-h-screen flex flex-col justify-center items-center px-4 py-10 bg-gradient-to-b from-white to-blue-50"
     >
       <h2 className="text-3xl font-bold text-center text-blue-600 pb-8">
-        Une accroche percutante, propulsée par l’IA
+        Génération d'accroche par intelligence artificielle
       </h2>
 
       <div className="w-full max-w-3xl space-y-8 p-6 rounded-2xl shadow-2xl border border-blue-100 bg-white">
@@ -39,15 +39,15 @@ export function HookGenerator() {
           transition={{ delay: 0.3 }}
           className="text-center text-gray-500 text-base mb-6 max-w-xl mx-auto"
         >
-          ✍️ Tu veux capter l’attention dès la première phrase ? Laisse l’IA te
-          souffler l’idée parfaite.
+          ✍️ Besoin de capter l’attention dès la première phrase ? Notre IA
+          génère pour vous l'accroche idéale en quelques secondes.
         </motion.p>
 
         <div className="space-y-2">
-          <Label htmlFor="text">📝 Ton texte de base</Label>
+          <Label htmlFor="text">📝 Votre texte source</Label>
           <Textarea
             id="text"
-            placeholder="Colle ici ton texte ou article à transformer..."
+            placeholder="Collez ici votre texte ou votre article..."
             value={text}
             onChange={(e) => setText(e.target.value)}
             rows={8}
@@ -104,7 +104,8 @@ export function HookGenerator() {
       </div>
 
       <div className="text-center mt-8 text-sm text-gray-400">
-        💡 Astuce : Une accroche efficace vient toujours d’un texte bien rédigé.
+        💡 Conseil : Plus votre texte est clair et structuré, plus l'accroche
+        générée sera percutante.
       </div>
     </Card>
   );
